@@ -5,12 +5,12 @@ To run the Python model:
 pip install gym
 
 To train the q-table, run:
-python agent/evaluator.py train BOARD_SIZE
+python agent/evaluator.py train BOARD_SIZE NUM_BOMBS
 
 where BOARD_SIZE represents the dimensions of the board (ONLY WORKS ON SQUARE BOARDS)
 
 To return an action corresponding to a state, run:
-python agent/evaluator.py test BOARD_SIZE
+python agent/evaluator.py test BOARD_SIZE NUM_BOMBS
 
 This will print out the square that the model decided to click on to the file result.txt
 
