@@ -6,8 +6,8 @@ from gym.envs.registration import register
 
 
 # default : easy board
-BOARD_SIZE = 5
-NUM_MINES = 3
+BOARD_SIZE = 3
+NUM_MINES = 1
 
 # cell values, non-negatives indicate number of neighboring mines
 MINE = -1
@@ -139,22 +139,22 @@ class MinesweeperEnv(gym.Env):
     def next_step(self, state, x, y, wait=False):
         my_board = state
         if not is_new_move(my_board, x, y):
-            if wait:
-                print("Reward: 0")
-            return my_board, -1, False, {}
+            #if wait:
+                #print("Reward: 0")
+            return my_board, -3, False, {}
         while True:
             state, game_over = self.get_next_state(my_board, x, y)
             if not game_over:
                 if is_win(state):
                     if wait:
                         print("You Win!")
-                    return state, 10, True, {}
+                    return state, 1000, True, {}
                 else:
-                    if wait:
-                        print("Reward: 1")
+                    #if wait:
+                        #print("Reward: 1")
                     return state, 1, False, {}
             else:
-                return state, -5, True, {}
+                return state, -15, True, {}
 
     def render(self, mode='human'):
             return 0
@@ -290,43 +290,77 @@ def StringifyState(state):
 
 import os
 import time
+import pickle
+import argparse
+import json
 if __name__ == "__main__":
-    env = MinesweeperEnv()
-    
-    learning_rate = 0.1
-    discount_factor = 0.9
-    num_episodes = 10000
-    epsilon = 0.1
-    q_table = QTable(env.board_size, learning_rate, discount_factor)
+    parser = argparse.ArgumentParser("Minesweeper AI")
+    parser.add_argument("train", help="Enter value 'train' if you want to retrain the q-table. Enter any other value to get a result.")
+    parser.add_argument("board_size", help="Enter the size of the board, should always be a square.", type=int)
+    args = parser.parse_args()
+    train  = args.train == "train"
 
-    visual = True
-    delay = 0.2
-    cutoff = num_episodes - 50
-    for episode in range(num_episodes):
-        state = env.reset()
+    if train:
+        env = MinesweeperEnv(board_size=args.board_size)
         
-        done = False
-        max_steps = 100
-        while not done and max_steps > 0:
-            # Choose action using epsilon-greedy strategy
-            action = epsilon_greedy_policy(q_table.get_q_values(state), epsilon)
-            placeToClick = (action % BOARD_SIZE, int(action / BOARD_SIZE))
-            # Take action and observe next state and reward
-            next_state, reward, done, _ = env.step(placeToClick, episode > cutoff)
-            
-            # Update Q-values
-            q_table.update_q_values(state, placeToClick, next_state, reward)
+        learning_rate = 0.1
+        discount_factor = 0.9
+        num_episodes = 10000
+        epsilon = 0.1
+        q_table = QTable(env.board_size, learning_rate, discount_factor)
 
-            # Update state
-            state = next_state
+        visual = True
+        delay = 0.4
+        cutoff = num_episodes - 50
+        for episode in range(num_episodes):
+            state = env.reset()
             
-            if visual and episode > cutoff:
-                os.system("cls")
-                print(state)
-                print("\n")
-                if done:
-                    print("Game Over")
-                    time.sleep(1) 
-                time.sleep(delay)
-            max_steps -=1
-    
+            done = False
+            max_steps = 100
+            while not done and max_steps > 0:
+                # Choose action using epsilon-greedy strategy
+                action = epsilon_greedy_policy(q_table.get_q_values(state), epsilon)
+                placeToClick = (action % BOARD_SIZE, int(action / BOARD_SIZE))
+                # Take action and observe next state and reward
+                next_state, reward, done, _ = env.step(placeToClick, episode > cutoff)
+                
+                # Update Q-values
+                q_table.update_q_values(state, placeToClick, next_state, reward)
+
+                # Update state
+                state = next_state
+                
+                if visual and episode > cutoff:
+                    
+                    if done:
+                        print("Game Over")
+                        time.sleep(1) 
+                    time.sleep(delay)
+                    os.system("cls")
+                    print(state)
+                    print("\n")
+                max_steps -=1
+        with open("qtable.pkl", "wb") as outfile:
+            pickle.dump(q_table, outfile)
+    else:
+        q_table = None
+        with open("qtable.pkl", "rb") as infile:
+            q_table = pickle.load(infile)
+        state = ""
+        with open("state.json") as infile:
+            state = infile.read()
+        state = json.loads(state)
+        grid = []
+        for i in range(len(state)):
+            grid.append(state[f"row_{i+1}"])
+        grid = np.array(grid)
+        epsilon = 0.0
+        print(grid)
+        print(q_table.get_q_values(grid))
+        action = epsilon_greedy_policy(q_table.get_q_values(grid), epsilon)
+        print(action)
+        placeToClick = f"{action % BOARD_SIZE},{int(action / BOARD_SIZE)}"
+        with open("result.txt", "w") as outfile:
+            outfile.write(placeToClick)
+        
+
