@@ -148,7 +148,7 @@ class MinesweeperEnv(gym.Env):
                 if is_win(state):
                     if wait:
                         print("You Win!")
-                    return state, 1000, True, {}
+                    return state, 20, True, {}
                 else:
                     #if wait:
                         #print("Reward: 1")
@@ -257,8 +257,9 @@ class QTable:
         self.q_table[str(state)][currentActionIndex] += self.learning_rate * (
             reward + discount_factor * self.q_table[str(next_state)][best_next_action] - self.q_table[str(state)][currentActionIndex]
         )
-        if debug:
-            print(self.q_table)
+    def print_Q(self, state):
+        print("Q-table:")
+        print(self.get_q_values(state))
 
 
 
@@ -267,7 +268,6 @@ def epsilon_greedy_policy(q_values, epsilon):
     Epsilon-greedy policy for selecting an action.
 
     Parameters:
-    - state: Current state of the environment
     - q_values: Q-values for the current state
     - epsilon: Probability of choosing a random action (exploration)
 
@@ -297,20 +297,21 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser("Minesweeper AI")
     parser.add_argument("train", help="Enter value 'train' if you want to retrain the q-table. Enter any other value to get a result.")
     parser.add_argument("board_size", help="Enter the size of the board, should always be a square.", type=int)
+    parser.add_argument("num_bombs", help="Enter the number of bombs on the board.", type=int)
     args = parser.parse_args()
     train  = args.train == "train"
 
     if train:
-        env = MinesweeperEnv(board_size=args.board_size)
+        env = MinesweeperEnv(board_size=args.board_size, num_mines=args.num_bombs)
         
-        learning_rate = 0.1
-        discount_factor = 0.9
+        learning_rate = 0.7
+        discount_factor = 0.1
         num_episodes = 10000
-        epsilon = 0.1
+        epsilon = 0.00
         q_table = QTable(env.board_size, learning_rate, discount_factor)
 
         visual = True
-        delay = 0.4
+        delay = 1
         cutoff = num_episodes - 50
         for episode in range(num_episodes):
             state = env.reset()
@@ -320,25 +321,37 @@ if __name__ == "__main__":
             while not done and max_steps > 0:
                 # Choose action using epsilon-greedy strategy
                 action = epsilon_greedy_policy(q_table.get_q_values(state), epsilon)
-                placeToClick = (action % BOARD_SIZE, int(action / BOARD_SIZE))
+                placeToClick = (action % env.board_size, int(action / env.board_size))
                 # Take action and observe next state and reward
+                prev_state  = env.my_board.copy()
                 next_state, reward, done, _ = env.step(placeToClick, episode > cutoff)
                 
                 # Update Q-values
-                q_table.update_q_values(state, placeToClick, next_state, reward)
+                q_table.update_q_values(prev_state, placeToClick, next_state, reward)
 
+                
                 # Update state
                 state = next_state
                 
                 if visual and episode > cutoff:
-                    
+                #if visual:
+                    print("previous state")
+                    print(prev_state)
+
                     if done:
                         print("Game Over")
-                        time.sleep(1) 
-                    time.sleep(delay)
-                    os.system("cls")
+                    
+                    print("Action taken:")
+                    print(placeToClick)
+
+                    print("Current State")
                     print(state)
                     print("\n")
+
+                    q_table.print_Q(prev_state)
+
+                    time.sleep(delay)
+                    os.system("cls")
                 max_steps -=1
         with open("qtable.pkl", "wb") as outfile:
             pickle.dump(q_table, outfile)
@@ -356,10 +369,11 @@ if __name__ == "__main__":
         grid = np.array(grid)
         epsilon = 0.0
         print(grid)
+        print(grid[2, 2])
         print(q_table.get_q_values(grid))
         action = epsilon_greedy_policy(q_table.get_q_values(grid), epsilon)
         print(action)
-        placeToClick = f"{action % BOARD_SIZE},{int(action / BOARD_SIZE)}"
+        placeToClick = f"{action % args.board_size},{int(action / args.board_size)}"
         with open("result.txt", "w") as outfile:
             outfile.write(placeToClick)
         
