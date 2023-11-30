@@ -12,7 +12,17 @@ where BOARD_SIZE represents the dimensions of the board (ONLY WORKS ON SQUARE BO
 To return an action corresponding to a state, run:
 python agent/evaluator.py test BOARD_SIZE
 
-This will print out the square that the model decided to click on.
+This will print out the square that the model decided to click on to the file result.txt
+
+The program searches for an agent/state.json file that contains the board information.
+The format of the state.json file is below:
+{
+    "row_1" : [0, 0, 0],
+    "row_2" : [1, 1, 1],
+    "row_3" : [-2, -2, -2]
+}
+
+
 
 Board indices below:
   0  1   2
