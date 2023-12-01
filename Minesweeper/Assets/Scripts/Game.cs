@@ -40,9 +40,58 @@ public class Game : MonoBehaviour
         }
 
         [JsonRpcMethod]
-        bool IsCellRevealed(int x, int y)
+        int GetWidthHeight()
         {
-            return game.state[x, y].revealed;
+            return game.width;
+        }
+
+        [JsonRpcMethod]
+        int GetCell(int x, int y)
+        {
+            if (game.state[x, y].revealed)
+            {
+                if (game.state[x, y].type == Cell.Type.Mine)
+                    return -2;
+                else if (game.state[x, y].type == Cell.Type.Number)
+                    return game.state[x, y].number;
+                else if (game.state[x, y].type == Cell.Type.Empty)
+                    return 0;
+                else
+                    return -3;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
+        [JsonRpcMethod]
+        string GetAllCells()
+        {
+            string output = "";
+            for (int j = game.width - 1; j >= 0; j--)
+            {
+                output = output + "\n";
+                for (int i = 0; i < game.width; i++)
+                {
+                    if (game.state[i, j].revealed)
+                    {
+                        if (game.state[i, j].type == Cell.Type.Mine)
+                            output = output + "-2 ";
+                        else if (game.state[i, j].type == Cell.Type.Number)
+                            output = output + game.state[i, j].number.ToString()+" ";
+                        else if (game.state[i, j].type == Cell.Type.Empty)
+                            output = output + "0 ";
+                        else
+                            output = output + "-3 ";
+                    }
+                    else
+                    {
+                        output = output + "-1 ";
+                    }
+                }
+            }
+            return output;
         }
     }
     Rpc rpc;
