@@ -93,6 +93,34 @@ public class Game : MonoBehaviour
             }
             return output;
         }
+
+        [JsonRpcMethod]
+        private void RevealCell(int x, int y)
+        {
+            Cell cell = game.GetCell(x, y);
+
+            if (cell.type == Cell.Type.Invalid || cell.revealed || cell.flagged)
+            {
+                return;
+            }
+
+            switch (cell.type)
+            {
+                case Cell.Type.Mine:
+                    game.Explode(cell);
+                    break;
+                case Cell.Type.Empty:
+                    game.Flood(cell);
+                    break;
+                default:
+                    cell.revealed = true;
+                    game.state[x, y] = cell;
+                    game.CheckWinCondition();
+                    break;
+            }
+
+            game.board.Draw(game.state);
+        }
     }
     Rpc rpc;
 
