@@ -1,14 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using AustinHarris.JsonRpc;
 
 public class Game : MonoBehaviour
 {
-    [SerializeField] private Slider widthSlider;
-    [SerializeField] private Slider heightSlider;
+    [SerializeField] private Slider widthAndHeightSlider;
     [SerializeField] private Slider mineSlider;
-    [SerializeField] private TextMeshProUGUI widthSliderText;
-    [SerializeField] private TextMeshProUGUI heightSliderText;
+    [SerializeField] private TextMeshProUGUI widthAndHeightSliderText;
     [SerializeField] private TextMeshProUGUI mineSliderText;
     [SerializeField] private TextMeshProUGUI winLoseText;
     
@@ -25,6 +24,29 @@ public class Game : MonoBehaviour
 
     private Color background = new Color32(69, 255, 231, 0);
 
+    class Rpc : JsonRpcService
+    {
+        public Game game;
+
+        public Rpc(Game game)
+        {
+            this.game = game;
+        }
+
+        [JsonRpcMethod]
+        void Say(string message)
+        {
+            Debug.Log($"you sent a {message}");
+        }
+
+        [JsonRpcMethod]
+        bool IsCellRevealed(int x, int y)
+        {
+            return game.state[x, y].revealed;
+        }
+    }
+    Rpc rpc;
+
     private void OnValidate()
     {
         mineCount = Mathf.Clamp(mineCount, 0, width * height);
@@ -37,6 +59,7 @@ public class Game : MonoBehaviour
 
     private void Start()
     {
+        rpc = new Rpc(this);
         InitTemp();
         NewGame();
         InitSliderListeners();
@@ -320,14 +343,10 @@ public class Game : MonoBehaviour
 
     private void InitSliderListeners()
     {
-        widthSlider.onValueChanged.AddListener((v) =>
+        widthAndHeightSlider.onValueChanged.AddListener((v) =>
         {
-            widthSliderText.text = v.ToString("0");
+            widthAndHeightSliderText.text = v.ToString("0");
             tempWidth = (int)v;
-        });
-        heightSlider.onValueChanged.AddListener((v) =>
-        {
-            heightSliderText.text = v.ToString("0");
             tempHeight = (int)v;
         });
         mineSlider.onValueChanged.AddListener((v) =>
