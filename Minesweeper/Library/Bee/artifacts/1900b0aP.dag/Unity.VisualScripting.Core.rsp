@@ -108,6 +108,8 @@
 -define:MODULE_PHYSICS_2D_EXISTS
 -define:CSHARP_7_OR_LATER
 -define:CSHARP_7_3_OR_NEWER
+-r:"Assets/Plugins/AustinHarris.JsonRpc.dll"
+-r:"Assets/Plugins/PeacefulPie.dll"
 -r:"C:/Program Files/Unity/Hub/Editor/2021.3.19f1/Editor/Data/NetStandard/compat/2.1.0/shims/netfx/mscorlib.dll"
 -r:"C:/Program Files/Unity/Hub/Editor/2021.3.19f1/Editor/Data/NetStandard/compat/2.1.0/shims/netfx/System.ComponentModel.Composition.dll"
 -r:"C:/Program Files/Unity/Hub/Editor/2021.3.19f1/Editor/Data/NetStandard/compat/2.1.0/shims/netfx/System.Core.dll"
@@ -297,12 +299,13 @@
 -r:"C:/Program Files/Unity/Hub/Editor/2021.3.19f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/Variations/mono/Managed/UnityEngine.VRModule.dll"
 -r:"C:/Program Files/Unity/Hub/Editor/2021.3.19f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/Variations/mono/Managed/UnityEngine.WindModule.dll"
 -r:"C:/Program Files/Unity/Hub/Editor/2021.3.19f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/Variations/mono/Managed/UnityEngine.XRModule.dll"
--r:"D:/Minesweeper/Minesweeper/Library/PackageCache/com.unity.burst@1.6.6/Unity.Burst.CodeGen/Unity.Burst.Cecil.dll"
--r:"D:/Minesweeper/Minesweeper/Library/PackageCache/com.unity.burst@1.6.6/Unity.Burst.CodeGen/Unity.Burst.Cecil.Mdb.dll"
--r:"D:/Minesweeper/Minesweeper/Library/PackageCache/com.unity.burst@1.6.6/Unity.Burst.CodeGen/Unity.Burst.Cecil.Pdb.dll"
--r:"D:/Minesweeper/Minesweeper/Library/PackageCache/com.unity.burst@1.6.6/Unity.Burst.CodeGen/Unity.Burst.Cecil.Rocks.dll"
--r:"D:/Minesweeper/Minesweeper/Library/PackageCache/com.unity.burst@1.6.6/Unity.Burst.Unsafe.dll"
--r:"D:/Minesweeper/Minesweeper/Library/PackageCache/com.unity.visualscripting@1.8.0/Runtime/VisualScripting.Flow/Dependencies/NCalc/Unity.VisualScripting.Antlr3.Runtime.dll"
+-r:"D:/Users/Sedna/Documents/GitHub/Minesweeper-AI-X/Minesweeper/Library/PackageCache/com.unity.burst@1.6.6/Unity.Burst.CodeGen/Unity.Burst.Cecil.dll"
+-r:"D:/Users/Sedna/Documents/GitHub/Minesweeper-AI-X/Minesweeper/Library/PackageCache/com.unity.burst@1.6.6/Unity.Burst.CodeGen/Unity.Burst.Cecil.Mdb.dll"
+-r:"D:/Users/Sedna/Documents/GitHub/Minesweeper-AI-X/Minesweeper/Library/PackageCache/com.unity.burst@1.6.6/Unity.Burst.CodeGen/Unity.Burst.Cecil.Pdb.dll"
+-r:"D:/Users/Sedna/Documents/GitHub/Minesweeper-AI-X/Minesweeper/Library/PackageCache/com.unity.burst@1.6.6/Unity.Burst.CodeGen/Unity.Burst.Cecil.Rocks.dll"
+-r:"D:/Users/Sedna/Documents/GitHub/Minesweeper-AI-X/Minesweeper/Library/PackageCache/com.unity.burst@1.6.6/Unity.Burst.Unsafe.dll"
+-r:"D:/Users/Sedna/Documents/GitHub/Minesweeper-AI-X/Minesweeper/Library/PackageCache/com.unity.nuget.newtonsoft-json@3.0.2/Runtime/AOT/Newtonsoft.Json.dll"
+-r:"D:/Users/Sedna/Documents/GitHub/Minesweeper-AI-X/Minesweeper/Library/PackageCache/com.unity.visualscripting@1.8.0/Runtime/VisualScripting.Flow/Dependencies/NCalc/Unity.VisualScripting.Antlr3.Runtime.dll"
 -r:"Library/Bee/artifacts/1900b0aP.dag/UnityEngine.UI.ref.dll"
 "Library/PackageCache/com.unity.visualscripting@1.8.0/Runtime/VisualScripting.Core/Cloning/Cloner.cs"
 "Library/PackageCache/com.unity.visualscripting@1.8.0/Runtime/VisualScripting.Core/Cloning/Cloners/AnimationCurveCloner.cs"

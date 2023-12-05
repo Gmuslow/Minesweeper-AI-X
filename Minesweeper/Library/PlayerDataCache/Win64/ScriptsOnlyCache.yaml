@@ -3,6 +3,8 @@ ScriptsOnlyBuild:
     Assembly-CSharp.dll:
     - Board
     - Game
+    PeacefulPie.dll:
+    - NetManager
     Unity.2D.Animation.Editor.dll:
     - UnityEditor.U2D.Animation.BoneGizmo
     Unity.2D.IK.Editor.dll:
@@ -11,7 +13,6 @@ ScriptsOnlyBuild:
     - UnityEditor.Tilemaps.GridBrush
     - UnityEditor.Tilemaps.GridPaintingState
     - UnityEditor.Tilemaps.GridPaletteBrushes
-    - UnityEditor.Tilemaps.GridPalettes
     - UnityEditor.Tilemaps.SceneViewGridManager
     - UnityEditor.Tilemaps.SceneViewOpenTilePaletteHelper
     - UnityEditor.Tilemaps.TileDragAndDropManager
@@ -93,33 +94,35 @@ ScriptsOnlyBuild:
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 674}
+      Script: {instanceID: 684}
     - Class: 114
-      Script: {instanceID: 1610}
+      Script: {instanceID: 1620}
     - Class: 114
-      Script: {instanceID: 2280}
+      Script: {instanceID: 2290}
     - Class: 114
-      Script: {instanceID: 2762}
+      Script: {instanceID: 2772}
     - Class: 114
-      Script: {instanceID: 2996}
+      Script: {instanceID: 2822}
     - Class: 114
-      Script: {instanceID: 3470}
+      Script: {instanceID: 3014}
     - Class: 114
-      Script: {instanceID: 3794}
+      Script: {instanceID: 3488}
     - Class: 114
-      Script: {instanceID: 4522}
+      Script: {instanceID: 3812}
     - Class: 114
-      Script: {instanceID: 4828}
+      Script: {instanceID: 4540}
     - Class: 114
-      Script: {instanceID: 5560}
+      Script: {instanceID: 4846}
     - Class: 114
-      Script: {instanceID: 5650}
+      Script: {instanceID: 5578}
     - Class: 114
-      Script: {instanceID: 6312}
+      Script: {instanceID: 5670}
     - Class: 114
-      Script: {instanceID: 6506}
+      Script: {instanceID: 6332}
     - Class: 114
-      Script: {instanceID: 6886}
+      Script: {instanceID: 6526}
+    - Class: 114
+      Script: {instanceID: 6906}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -301,6 +304,24 @@ ScriptsOnlyBuild:
     className: UnityOnCollisionEnterMessageListener
   - hash:
       serializedVersion: 2
+      Hash: 3f70d7de65bb59039c905e6a3928e089
+    assemblyName: PeacefulPie.dll
+    namespaceName: 
+    className: NetManager
+  - hash:
+      serializedVersion: 2
+      Hash: 6ac32b8f6e565018b7135f3328e7045d
+    assemblyName: PeacefulPie.dll
+    namespaceName: 
+    className: RayCasts
+  - hash:
+      serializedVersion: 2
+      Hash: 563d4833e362cfdaec61804fe2d528eb
+    assemblyName: PeacefulPie.dll
+    namespaceName: 
+    className: Simulation
+  - hash:
+      serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
     assemblyName: Unity.VisualScripting.Core.dll
     namespaceName: Unity.VisualScripting
@@ -463,7 +484,7 @@ ScriptsOnlyBuild:
     className: BaseInput
   - hash:
       serializedVersion: 2
-      Hash: 7f3388d6712fb6fbec45198586f1cd09
+      Hash: ceb355393a62b7757bcbe2d11ce396db
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Game
@@ -1082,4 +1103,4 @@ ScriptsOnlyBuild:
   platform: 19
   scenePathNames:
   - Assets/Scenes/Minesweeper.unity
-  playerPath: D:/Minesweeper/Minesweeper/Builds/Minesweeper/Minesweeper.exe
+  playerPath: D:/Minesweeper/Minesweeper/Builds/Minesweeper.exe
