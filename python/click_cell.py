@@ -6,7 +6,6 @@ def run(args: argparse.Namespace) -> None:
     unity_comms.RevealCell(x=args.x,y=args.y)
     """ Does essentially what a user does when clicking a square, using parameters
         for position."""
-    print('done')
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

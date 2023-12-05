@@ -77,7 +77,7 @@ public class Game : MonoBehaviour
                     if (game.state[i, j].revealed)
                     {
                         if (game.state[i, j].type == Cell.Type.Mine)
-                            output = output + "-2 ";
+                            output = output + "-1 ";
                         else if (game.state[i, j].type == Cell.Type.Number)
                             output = output + game.state[i, j].number.ToString()+" ";
                         else if (game.state[i, j].type == Cell.Type.Empty)
@@ -87,7 +87,7 @@ public class Game : MonoBehaviour
                     }
                     else
                     {
-                        output = output + "-1 ";
+                        output = output + "-2 ";
                     }
                 }
             }
@@ -97,29 +97,50 @@ public class Game : MonoBehaviour
         [JsonRpcMethod]
         private void RevealCell(int x, int y)
         {
-            Cell cell = game.GetCell(x, y);
-
-            if (cell.type == Cell.Type.Invalid || cell.revealed || cell.flagged)
+            if (!game.gameover)
             {
-                return;
-            }
+                Cell cell = game.GetCell(x, y);
+                if (cell.type == Cell.Type.Invalid || cell.revealed || cell.flagged)
+                {
+                    return;
+                }
 
-            switch (cell.type)
-            {
-                case Cell.Type.Mine:
-                    game.Explode(cell);
-                    break;
-                case Cell.Type.Empty:
-                    game.Flood(cell);
-                    break;
-                default:
-                    cell.revealed = true;
-                    game.state[x, y] = cell;
-                    game.CheckWinCondition();
-                    break;
-            }
+                switch (cell.type)
+                {
+                    case Cell.Type.Mine:
+                        game.Explode(cell);
+                        break;
+                    case Cell.Type.Empty:
+                        game.Flood(cell);
+                        game.CheckWinCondition();
+                        break;
+                    default:
+                        cell.revealed = true;
+                        game.state[x, y] = cell;
+                        game.CheckWinCondition();
+                        break;
+                }
 
-            game.board.Draw(game.state);
+                game.board.Draw(game.state);
+            }
+        }
+
+        [JsonRpcMethod]
+        private void Restart()
+        {
+            game.NewGame();
+        }
+
+        [JsonRpcMethod]
+        private bool GameActive()
+        {
+            return game.gameover;
+        }
+
+        [JsonRpcMethod]
+        private int GetBombNum()
+        {
+            return game.mineCount;
         }
     }
     Rpc rpc;
@@ -295,6 +316,7 @@ public class Game : MonoBehaviour
                 break;
             case Cell.Type.Empty:
                 Flood(cell);
+                CheckWinCondition();
                 break;
             default:
                 cell.revealed = true;
@@ -400,15 +422,12 @@ public class Game : MonoBehaviour
     {
         tempWidth = width;
         tempHeight = height;
-        if(mineCount > width*height)
+        if(tempMines > width*height)
         {
             tempMines = (width*height) / 2;
             Debug.Log("ERROR: Too many mines! Reduced to half play space");
         }
-        else
-        {
-            tempMines = mineCount;
-        }
+        tempMines = mineCount;
     }
 
     private void InitFromTemp()

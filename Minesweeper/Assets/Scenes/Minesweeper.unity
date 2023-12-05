@@ -1991,7 +1991,7 @@ MonoBehaviour:
   m_FillRect: {fileID: 38433195}
   m_HandleRect: {fileID: 1414933733}
   m_Direction: 0
-  m_MinValue: 4
+  m_MinValue: 3
   m_MaxValue: 20
   m_WholeNumbers: 1
   m_Value: 16
