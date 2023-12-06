@@ -306,7 +306,7 @@ if __name__ == "__main__":
         
         learning_rate = 0.7
         discount_factor = 0.1
-        num_episodes = 1000
+        num_episodes = 10000
         epsilon = 0.00
         q_table = QTable(env.board_size, learning_rate, discount_factor)
 
