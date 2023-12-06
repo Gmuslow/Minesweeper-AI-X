@@ -141,7 +141,7 @@ class MinesweeperEnv(gym.Env):
         if not is_new_move(my_board, x, y):
             #if wait:
                 #print("Reward: 0")
-            return my_board, -3, False, {}
+            return my_board, -10, False, {}
         while True:
             state, game_over = self.get_next_state(my_board, x, y)
             if not game_over:
@@ -152,9 +152,9 @@ class MinesweeperEnv(gym.Env):
                 else:
                     #if wait:
                         #print("Reward: 1")
-                    return state, 1, False, {}
+                    return state, 3, False, {}
             else:
-                return state, -15, True, {}
+                return state, -10, True, {}
 
     def render(self, mode='human'):
             return 0
@@ -303,16 +303,17 @@ if __name__ == "__main__":
 
     if train:
         env = MinesweeperEnv(board_size=args.board_size, num_mines=args.num_bombs)
-        
-        learning_rate = 0.7
+        BOARD_SIZE = args.board_size
+        NUM_MINES = args.num_bombs
+        learning_rate = 1
         discount_factor = 0.1
-        num_episodes = 10000
+        num_episodes = 20000
         epsilon = 0.00
         q_table = QTable(env.board_size, learning_rate, discount_factor)
 
-        visual = False
-        delay = 1
-        cutoff = num_episodes - 50
+        visual = True
+        delay = 0.4
+        cutoff = num_episodes - 100
         for episode in range(num_episodes):
             state = env.reset()
             
