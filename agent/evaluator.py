@@ -306,11 +306,11 @@ if __name__ == "__main__":
         
         learning_rate = 0.7
         discount_factor = 0.1
-        num_episodes = 10000
+        num_episodes = 1000
         epsilon = 0.00
         q_table = QTable(env.board_size, learning_rate, discount_factor)
 
-        visual = True
+        visual = False
         delay = 1
         cutoff = num_episodes - 50
         for episode in range(num_episodes):
